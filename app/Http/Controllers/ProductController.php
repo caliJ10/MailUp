@@ -15,12 +15,14 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request){
-
+        //preguntamos si se esta buscando por nombre o no
         if ($request->filled('name')) {
+            //traemos los registos que coinciden con el nombre buscado
             $products = Product::where('name', 'like', '%'. $request->name. '%')
                 ->get();
         }
         else{
+            //traemos todos los registros
             $products = Product::all();
         }
         return $products;
@@ -44,7 +46,7 @@ class ProductController extends Controller
      */
     public function store(SaveProductRequest $request)
     {
-        $validated = $request->validated();
+        //SaveProductRequest valida los datos segun las reglas establecidas en Request->SaveProductRequest
         $product = Product::create($request->all());
         return response()->json([
             'res' => true,
@@ -86,6 +88,7 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
+        //UpdateProductRequest valida los datos segun las reglas establecidas en Request->UpdateProductRequest
         $product->update($request->all());
         return response()->json([
             'res' => true,
